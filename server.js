@@ -115,6 +115,35 @@ function addDepartment() {
     });
 }
 
+// REMOVES A DEPARTMENT
+function removeDepartment() {
+    var query = "SELECT name FROM department";
+    var depNames = [];
+    connection.query(query, (err,res) => {
+        if (err) throw err;
+        // PUSH ALL DEPARTMENT NAMES INTO ARRAY FOR CHOICES
+        for (var i = 0; i < res.length; i++){
+            depNames.push(res[i].name);
+        }
+
+        inquirer.prompt({
+            name: "delDep",
+            type: "list",
+            message: "Which department would you like to remove?",
+            choices: depNames
+        }).then(data => {
+            query = "DELETE FROM department WHERE name = ?"
+            connection.query(query, (data.delDep), (err, res) => {
+                if (err) throw err;
+
+                console.log(data.delDep + " deleted");
+
+                init();
+            });
+        });
+    });
+    
+}
 
 // "View All Departments",
 // "Add Departments",
