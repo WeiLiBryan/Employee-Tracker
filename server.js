@@ -19,6 +19,7 @@ connection.connect(function(err) {
 
 // UPON STARTING THE APP
 function init() {
+    console.log("\n");
     inquirer.prompt({
         name: "nav",
         type: "list",
@@ -94,11 +95,25 @@ function viewDepartments() {
         console.table(department);
 
         department = [];
-        console.log("\n");
         init();
     });
 }
 
+// ADDS A NEW DEPARTMENT
+function addDepartment() {
+    inquirer.prompt({
+        name: "depName",
+        type: "input",
+        message: "What would you like to name the new department?"
+    }).then(data => {
+        var query = "INSERT INTO department (name) VALUES (?)";
+        connection.query(query, (data.depName), (err, res) => {
+            if (err) throw err;
+            console.log("Department Added");
+            init();
+        });
+    });
+}
 
 
 // "View All Departments",
