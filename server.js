@@ -46,6 +46,8 @@ function init() {
     });
 }
 
+//  DEPARTMENT SECTION
+// -------------------------------------------------------------------------------
 function departmentNav() {
     inquirer.prompt({
         name: "depNav",
@@ -60,14 +62,29 @@ function departmentNav() {
     }).then(res => {
         switch(res.depNav){
             case "View All Departments":
+                viewDepartments();
                 break;
             case "Add Departments":
+                addDepartment();
                 break;
             case "Remove Departments":
+                removeDepartment();
                 break;
             case "View Department Budget":
+                viewDepBudget();
                 break;
         }
+    });
+}
+
+// DISPLAYS ALL DEPARTMENTS IN TABLE
+function viewDepartments() {
+    var query = "SELECT * FROM department";
+    connection.query(query, function(err,res) {
+        for (var i = 0; i < res.length; i++){
+            console.log("ID: " + res[i].id + " || Name: " + res[i].name);
+        }
+        init();
     });
 }
 
