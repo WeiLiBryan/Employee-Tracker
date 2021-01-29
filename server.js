@@ -80,10 +80,21 @@ function departmentNav() {
 // DISPLAYS ALL DEPARTMENTS IN TABLE
 function viewDepartments() {
     var query = "SELECT * FROM department";
+    var department = [];
+    console.log("\n");
     connection.query(query, function(err,res) {
         for (var i = 0; i < res.length; i++){
-            console.log("ID: " + res[i].id + " || Name: " + res[i].name);
+            var currentDep = {
+                id: res[i].id, 
+                department_name: res[i].name
+            };
+            department.push(currentDep);
+            // console.table(res[i].id, res[i].name);
         }
+        console.table(department);
+
+        department = [];
+        console.log("\n");
         init();
     });
 }
