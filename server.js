@@ -173,16 +173,32 @@ function roleNav() {
             case "Remove a Role":
                 removeRole();
                 break;
-            // case "View Department Budget":
-            //     viewDepBudget();
-            //     break;
         }
     });
 }
 
 // DISPLAYS ALL ROLES
 function viewRoles() {
-    
+    var query = "SELECT * FROM role";
+    var role = [];
+    console.log("\n");
+    connection.query(query, function(err,res) {
+        for (var i = 0; i < res.length; i++){
+            var currentRole = {
+                id: res[i].id, 
+                title: res[i].title,
+                salary: res[i].salary,
+                department_id: res[i].department_id
+            };
+
+            role.push(currentRole);
+        }
+
+        console.table(department);
+
+        role = [];
+        init();
+    });
 }
 
 // "View All Departments",
