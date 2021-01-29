@@ -47,6 +47,7 @@ function init() {
     });
 }
 
+// -------------------------------------------------------------------------------
 //  DEPARTMENT SECTION
 // -------------------------------------------------------------------------------
 function departmentNav() {
@@ -57,8 +58,7 @@ function departmentNav() {
         choices: [
             "View All Departments",
             "Add Departments",
-            "Remove Departments",
-            "View Department Budget"
+            "Remove Departments"
         ]
     }).then(res => {
         switch(res.depNav){
@@ -71,9 +71,9 @@ function departmentNav() {
             case "Remove Departments":
                 removeDepartment();
                 break;
-            case "View Department Budget":
-                viewDepBudget();
-                break;
+            // case "View Department Budget":
+            //     viewDepBudget();
+            //     break;
         }
     });
 }
@@ -142,6 +142,46 @@ function removeDepartment() {
             });
         });
     });
+    
+}
+
+// DISPLAYS THE TOTAL SALARY OF ALL THE EMPLOYEES
+// function viewDepBudget() {};
+
+// -------------------------------------------------------------------------------
+//  ROLE SECTION
+// -------------------------------------------------------------------------------
+
+function roleNav() {
+    inquirer.prompt({
+        name: "roleNav",
+        type: "list",
+        message: "What would you like to do?",
+        choices: [
+            "View All Roles",
+            "Add a New Role",
+            "Remove a Role"
+        ]
+    }).then(res => {
+        switch(res.roleNav){
+            case "View All Roles":
+                viewRoles();
+                break;
+            case "Add a New Role":
+                addRole();
+                break;
+            case "Remove a Role":
+                removeRole();
+                break;
+            // case "View Department Budget":
+            //     viewDepBudget();
+            //     break;
+        }
+    });
+}
+
+// DISPLAYS ALL ROLES
+function viewRoles() {
     
 }
 
