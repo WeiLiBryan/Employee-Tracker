@@ -4,13 +4,10 @@ var inquirer = require("inquirer");
 var connection = mysql.createConnection({
   host: "localhost",
 
-  // Your port; if not 3306
   port: process.env.PORT || 3306,
 
-  // Your username
   user: "root",
 
-  // Your password
   password: "password",
   database: "Employee_DB"
 });
@@ -20,6 +17,7 @@ connection.connect(function(err) {
   init();
 });
 
+// UPON STARTING THE APP
 function init() {
     inquirer.prompt({
         name: "nav",
@@ -31,6 +29,7 @@ function init() {
             "Employees"
         ]
     }).then(res => {
+        // SWITCH TO NAVIGATE THROUGH WHICH OPTION
         switch(res.nav){
             case "Departments":
                 departmentNav();
@@ -42,6 +41,31 @@ function init() {
 
             case "Employees":
                 empNav();
+                break;
+        }
+    });
+}
+
+function departmentNav() {
+    inquirer.prompt({
+        name: "depNav",
+        type: "list",
+        message: "What would you like to do?",
+        choices: [
+            "View All Departments",
+            "Add Departments",
+            "Remove Departments",
+            "View Department Budget"
+        ]
+    }).then(res => {
+        switch(res.depNav){
+            case "View All Departments":
+                break;
+            case "Add Departments":
+                break;
+            case "Remove Departments":
+                break;
+            case "View Department Budget":
                 break;
         }
     });
