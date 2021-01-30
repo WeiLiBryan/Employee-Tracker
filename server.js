@@ -352,7 +352,40 @@ function addEmployee() {
 }
 
 function removeEmployee() {
+    var query = "SELECT first_name, last_name, id FROM employee";
+    var empName = [];
+    var name;
+    connection.query(query, (err,res) => {
+        if (err) throw err;
+        // PUSH EMPLOYEE FIRST AND LAST NAME INTO ARRAY FOR CHOICES
+        for (var i = 0; i < res.length; i++){
+            // NAME FOR INQUIRER CHOICES
+            name = res[i].first_name;
+            name += " ";
+            name += res[i].last_name;
+            empName.push(name);
+        }
+        
+        inquirer.prompt({
+            name: "delEmp",
+            type: "list",
+            message: "Which employee would you like to remove?",
+            choices: empName
+        }).then(data => {
+            // CHOSEN EMPLOYEE
+            var chosenEmp = data.empName.split(" ");
+            var chosenName = chosenEmp[0];
 
+            query = "DELETE FROM employee WHERE first_name = ?"
+            connection.query(query, (chosenName), (err, res) => {
+                if (err) throw err;
+
+                console.log(data.empName + " has been removed");
+
+                init();
+            });
+        });
+    });
 }
 
 function viewEmployeeDep() {
@@ -364,5 +397,5 @@ function viewEmployeeManager() {
 }
 
 function updateEmployeeManager() {
-    
+
 }
