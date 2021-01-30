@@ -244,7 +244,7 @@ function addRole() {
             connection.query(query, [data.roleName, data.roleSal, chosenID], (err, res) => {
                 if (err) throw err;
 
-                console.log(data.roleName + " added");
+                console.log(data.roleName + " added to roles");
                 init();
             });
         });  
@@ -278,16 +278,48 @@ function removeRole() {
         });
     });
 }
-// "View All Departments",
-// "Add Departments",
-// "Remove Departments",
-// "View Department Budget",
-// "View All Roles",
-// "Add New Role",
-// "Remove Role",
-// "View All Employees"
-// "Add New Employee",
-// "Remove Employee",
-// "View Employee by Department",
-// "View Employee by Manager",
-// "Update Employee Manager",
+
+// -------------------------------------------------------------------------------
+//  EMPLOYEE SECTION
+// -------------------------------------------------------------------------------
+
+function empNav() {
+    inquirer.prompt({
+        name: "empNav",
+        type: "list",
+        message: "What would you like to do?",
+        choices: [
+            "View All Employees",
+            "Add New Employee",
+            "Remove Employee",
+            "View Employee by Department",
+            "View Employee by Manager",
+            "Update Employee Manager"
+        ]
+    }).then(res => {
+        switch(res.depNav){
+            case "View All Employees":
+                viewEmployees();
+                break;
+            case "Add New Employee":
+                addEmployee();
+                break;
+            case "Remove Employee":
+                removeEmployee();
+                break;
+            case "View Employee by Department":
+                viewEmployeeDep();
+                break;
+            case "View Employee by Manager":
+                viewEmployeeManager();
+                break;
+            case "Update Employee Manager":
+                updateEmployeeManager();
+                break;
+        }
+    });
+}
+
+function viewEmployees() {
+    
+}
