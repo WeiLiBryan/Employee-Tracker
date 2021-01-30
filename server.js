@@ -200,6 +200,7 @@ function viewRoles() {
     });
 }
 
+// ADDS ROLE TO DB
 function addRole() {
     var query = "SELECT * FROM department";
     var departments = [];
@@ -251,6 +252,7 @@ function addRole() {
     });
 }
 
+// REMOVES ROLE FROM DB
 function removeRole() {
     var query = "SELECT title FROM role";
     var roleNames = [];
@@ -320,6 +322,47 @@ function empNav() {
     });
 }
 
+// VIEWS ALL EMPLOYEES IN DB
 function viewEmployees() {
+    var query = "SELECT * FROM employee";
+    var employee = [];
+    console.log("\n");
+    connection.query(query, function(err,res) {
+        for (var i = 0; i < res.length; i++){
+            var currentEmp = {
+                id: res[i].id, 
+                first_name: res[i].first_name,
+                last_name: res[i].last_name,
+                role_id: res[i].role_id,
+                manager_id: res[i].role_manager_id
+            };
+
+            employee.push(currentEmp);
+        }
+
+        console.table(employee);
+
+        employee = [];
+        init();
+    });
+}
+
+function addEmployee() {
+    
+}
+
+function removeEmployee() {
+
+}
+
+function viewEmployeeDep() {
+
+}
+
+function viewEmployeeManager() {
+
+}
+
+function updateEmployeeManager() {
     
 }
