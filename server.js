@@ -299,7 +299,7 @@ function empNav() {
             "Update Employee Manager"
         ]
     }).then(res => {
-        switch(res.depNav){
+        switch(res.empNav){
             case "View All Employees":
                 viewEmployees();
                 break;
@@ -336,7 +336,7 @@ function viewEmployees() {
                 role_id: res[i].role_id,
                 manager_id: res[i].role_manager_id
             };
-
+            console.log("here");
             employee.push(currentEmp);
         }
 
@@ -348,7 +348,35 @@ function viewEmployees() {
 }
 
 function addEmployee() {
-    
+    inquirer.prompt([
+        {
+            name: "fName",
+            type: "input",
+            message: "What is their first name?"
+        },
+        {
+            name: "lName",
+            type: "input",
+            message: "What is their last name?"
+        },
+        {
+            name: "role",
+            type: "input",
+            message: "What is their role id?"
+        },
+        {
+            name: "managerID",
+            type: "input",
+            message: "What is their manager's id?"
+        }
+    ]).then(data => {
+        var query = "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)";
+        connection.query(query, [data.fName, data.lName, data.role, data.managerID], (err, res) => {
+            if (err) throw err;
+            console.log("Employee Added");
+            init();
+        });
+    });
 }
 
 function removeEmployee() {
@@ -373,14 +401,15 @@ function removeEmployee() {
             choices: empName
         }).then(data => {
             // CHOSEN EMPLOYEE
-            var chosenEmp = data.empName.split(" ");
+
+            var chosenEmp = data.delEmp.split(" ");
             var chosenName = chosenEmp[0];
 
             query = "DELETE FROM employee WHERE first_name = ?"
             connection.query(query, (chosenName), (err, res) => {
                 if (err) throw err;
 
-                console.log(data.empName + " has been removed");
+                console.log(data.delEmp + " has been removed");
 
                 init();
             });
