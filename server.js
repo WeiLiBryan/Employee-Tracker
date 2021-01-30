@@ -142,7 +142,6 @@ function removeDepartment() {
             });
         });
     });
-    
 }
 
 // DISPLAYS THE TOTAL SALARY OF ALL THE EMPLOYEES
@@ -194,13 +193,91 @@ function viewRoles() {
             role.push(currentRole);
         }
 
-        console.table(department);
+        console.table(role);
 
         role = [];
         init();
     });
 }
 
+function addRole() {
+    var query = "SELECT * FROM department";
+    var departments = [];
+    var depNames = [];
+    connection.query(query, (err,res) => {
+        if (err) throw err;
+
+        // PUSH ALL DEPARTMENT NAMES INTO ARRAY FOR CHOICES
+        for (var i = 0; i < res.length; i++){
+            departments.push(res[i]);
+            depNames.push(departments[i].name);
+        }
+
+        inquirer.prompt([
+            {
+                name: "roleName",
+                type: "input",
+                message: "What is the role?"
+            },
+            {
+                name: "roleSal",
+                type: "input",
+                message: "What is the salary for the role?"
+            },
+            {
+                name: "roleDep",
+                type: "list",
+                message: "What is the department for the role?",
+                choices: depNames
+            }
+        ]).then(data => {
+            var query = "INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)";
+            var chosenID;
+
+            // ITERATES THROUGH WHOLE ARRAY AND GRABS ID OF SELECTED DEPARTMENT
+            for (var m = 0; m < departments.length; m++){
+                if(departments[m].name === data.roleDep){
+                    chosenID = departments[m].id;
+                }
+            }
+
+            connection.query(query, [data.roleName, data.roleSal, chosenID], (err, res) => {
+                if (err) throw err;
+
+                console.log(data.roleName + " added");
+                init();
+            });
+        });  
+    });
+}
+
+function removeRole() {
+    var query = "SELECT title FROM role";
+    var roleNames = [];
+    connection.query(query, (err,res) => {
+        if (err) throw err;
+        // PUSH ALL DEPARTMENT NAMES INTO ARRAY FOR CHOICES
+        for (var i = 0; i < res.length; i++){
+            roleNames.push(res[i].title);
+        }
+
+        inquirer.prompt({
+            name: "delRole",
+            type: "list",
+            message: "Which role would you like to remove?",
+            choices: roleNames
+        }).then(data => {
+            query = "DELETE FROM role WHERE title = ?"
+            connection.query(query, (data.delRole), (err, res) => {
+                if (err) throw err;
+
+                console.log(data.delRole + " deleted");
+
+                init();
+            });
+        });
+    });
+}
 // "View All Departments",
 // "Add Departments",
 // "Remove Departments",
